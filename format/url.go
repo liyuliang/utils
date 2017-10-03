@@ -2,10 +2,14 @@ package format
 
 import (
 	URL "net/url"
+	"errors"
 )
 
-func UrlDecode(uri string) (string, error) {
-	u, err := URL.Parse(uri)
+func UrlDecode(url string) (string, error) {
+	if url == ""{
+		return "",errors.New("miss argument url")
+	}
+	u, err := URL.Parse(url)
 	if err != nil {
 		return "", err
 	}
