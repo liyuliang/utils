@@ -4,6 +4,15 @@ import (
 	"testing"
 )
 
+func Test_Get(t *testing.T) {
+	url := "/zh-hans/slice-of-life/the-sound-of-your-heart/list?title_no=235&serviceZone=CHINA&page=11"
+
+	title_no := Get(url, `\?title_no=(\d+)`)
+	if title_no != "235" {
+		t.Error("regexp get wrong , expect 235, but get", title_no)
+	}
+}
+
 func Test_replace(t *testing.T) {
 	url := "/zh-hans/slice-of-life/the-sound-of-your-heart/list?title_no=235&serviceZone=CHINA&page=11"
 
