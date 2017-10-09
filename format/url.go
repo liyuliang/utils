@@ -3,6 +3,7 @@ package format
 import (
 	URL "net/url"
 	"errors"
+	"strings"
 )
 
 func UrlDecode(url string) (string, error) {
@@ -12,4 +13,12 @@ func UrlDecode(url string) (string, error) {
 
 	url, err := URL.QueryUnescape(url)
 	return url, err
+}
+
+func UrlFormat(url string) (string) {
+	if !strings.Contains(url, "http:") || !strings.Contains(url, "https:") {
+		return "http://" + url
+	} else {
+		return url
+	}
 }
