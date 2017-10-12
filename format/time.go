@@ -15,5 +15,9 @@ func IntToTimeSecond(content int) time.Duration {
 }
 
 func SecondTimeAfterNow(second int) time.Time {
-	return time.Now().Add(+ IntToTimeSecond(second))
+	if second == 0 {
+		return time.Now()
+	}else{
+		return time.Now().Add(+ IntToTimeSecond(second))
+	}
 }
