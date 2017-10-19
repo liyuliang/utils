@@ -6,7 +6,7 @@ import (
 )
 
 func SetField(obj interface{}, name string, value interface{}) {
-	name = strings.Title(name)
+	name = strings.Title(strings.ToLower(name))
 
 	structValue := reflect.ValueOf(obj).Elem()
 	structFieldValue := structValue.FieldByName(name)
