@@ -4,7 +4,6 @@ import (
 	"strconv"
 	"crypto/md5"
 	"encoding/hex"
-	"encoding/json"
 )
 
 func IntToStr(content int) string {
@@ -27,9 +26,4 @@ func StrToInt(content string) int {
 func MD5Hash(text string) string {
 	hash := md5.Sum([]byte(text))
 	return hex.EncodeToString(hash[:])
-}
-
-func StructToStr(content interface{}) string {
-	str, _ := json.Marshal(content)
-	return string(str)
 }

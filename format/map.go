@@ -19,8 +19,8 @@ func (mapData data) Keys() (data []string) {
 	return data
 }
 
-func (d data) ToString() string {
-	byteData, _ := json.Marshal(d)
+func (mapData data) ToString() string {
+	byteData, _ := json.Marshal(mapData)
 	return string(byteData)
 }
 
