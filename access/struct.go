@@ -2,11 +2,9 @@ package access
 
 import (
 	"reflect"
-	"strings"
 )
 
 func SetField(obj interface{}, name string, value interface{}) {
-	name = strings.Title(strings.ToLower(name))
 
 	structValue := reflect.ValueOf(obj).Elem()
 	structFieldValue := structValue.FieldByName(name)
