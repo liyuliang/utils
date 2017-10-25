@@ -2,21 +2,31 @@ package access
 
 import (
 	"reflect"
+	"strings"
 )
 
 func SetField(obj interface{}, name string, value interface{}) {
 
-	structValue := reflect.ValueOf(obj).Elem()
-	structFieldValue := structValue.FieldByName(name)
+	object := reflect.ValueOf(obj)
+	structValue := object.Elem()
+	structType := structValue.Type()
 
-	if structFieldValue.IsValid() {
+	for i := 0; i < structValue.NumField(); i++ {
+		fieldName := structType.Field(i).Name
+		if strings.ToLower(fieldName) == strings.ToLower(name) {
 
-		if structFieldValue.CanSet() {
-			structFieldType := structFieldValue.Type()
-			val := reflect.ValueOf(value)
+			structFieldValue := structValue.FieldByName(fieldName)
 
-			if structFieldType == val.Type() {
-				structFieldValue.Set(val)
+			if structFieldValue.IsValid() {
+
+				if structFieldValue.CanSet() {
+					structFieldType := structFieldValue.Type()
+					val := reflect.ValueOf(value)
+
+					if structFieldType == val.Type() {
+						structFieldValue.Set(val)
+					}
+				}
 			}
 		}
 	}
