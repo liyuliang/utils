@@ -14,6 +14,12 @@ func Get(content string, expr string) string {
 	return result
 }
 
+func GetAll(content string, expr string) (results []string) {
+	rule, _ := regexp.Compile(expr)
+	results = rule.FindAllString(content,-1)
+	return results
+}
+
 func Replace(content string, expr string, replacement string) string {
 	rule, _ := regexp.Compile(expr)
 	return rule.ReplaceAllString(content, replacement)

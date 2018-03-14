@@ -13,6 +13,19 @@ func Test_Get(t *testing.T) {
 	}
 }
 
+func TestGetAll(t *testing.T) {
+	url := "js12789fnsd89wfjsf"
+
+	nums := GetAll(url, `\d+`)
+	if nums[0] != "12789" {
+		t.Error("regexp get all wrong , expect 12789, but get", nums[0])
+	}
+	if nums[1] != "89" {
+		t.Error("regexp get all wrong , expect 89, but get", nums[1])
+	}
+
+}
+
 func Test_replace(t *testing.T) {
 	url := "/zh-hans/slice-of-life/the-sound-of-your-heart/list?title_no=235&serviceZone=CHINA&page=11"
 
