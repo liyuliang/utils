@@ -23,6 +23,15 @@ func StrToInt(content string) int {
 	}
 }
 
+func StrToInt64(content string) int64 {
+	i, err := strconv.ParseInt(content, 10, 64)
+	if err != nil {
+		return 0
+	} else {
+		return i
+	}
+}
+
 func MD5Hash(text string) string {
 	hash := md5.Sum([]byte(text))
 	return hex.EncodeToString(hash[:])
