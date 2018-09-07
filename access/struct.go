@@ -37,3 +37,40 @@ func Set(obj interface{}, m map[string]interface{}) {
 		SetField(obj, k, v)
 	}
 }
+
+func Fill(targetObj interface{}, fillObj interface{}) {
+
+	targetObject := reflect.ValueOf(targetObj)
+	fillObject := reflect.ValueOf(fillObj)
+
+	targetObjStructValue := targetObject.Elem()
+	fillObjStructValue := fillObject.Elem()
+
+	targetObjStructType := targetObjStructValue.Type()
+	fillObjStructType := fillObjStructValue.Type()
+
+	for i := 0; i < targetObjStructType.NumField(); i++ {
+		targetObjFieldName := targetObjStructType.Field(i).Name
+		fillObjFieldName := fillObjStructType.Field(i).Name
+
+		targetObjStructFieldValue := targetObjStructValue.FieldByName(targetObjFieldName)
+		fillObjStructFieldValue := fillObjStructValue.FieldByName(fillObjFieldName)
+
+
+		if targetObjStructFieldValue.IsValid() {
+			if targetObjStructFieldValue.CanSet() {
+
+				targetObjStructFieldType := targetObjStructFieldValue.Type()
+				fillObjStructFieldVal := reflect.ValueOf(fillObjStructFieldValue)
+				println(targetObjStructFieldType.String(), fillObjStructFieldVal.Type().String())
+				if targetObjStructFieldType.String() == fillObjStructFieldVal.Type().String() {
+
+					targetObjStructFieldValue.Set(fillObjStructFieldVal)
+				}
+			}
+		}
+		//println(targetObjFieldName, targetObjStructFieldValue.String())
+		//println(fillObjFieldName, fillObjStructFieldValue.String())
+	}
+
+}

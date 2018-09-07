@@ -30,5 +30,47 @@ func TestSet(t *testing.T) {
 	if s.EnglishName != "liangaaaa" {
 		t.Error("method Set EnglishName faild")
 	}
+}
 
+func TestFill(t *testing.T) {
+
+	type Student struct {
+		Name        string
+		Address     string
+		EnglishName string
+	}
+
+	type People struct {
+		Name        string
+		Age         int
+		Gender      string
+		Address     string
+		EnglishName string
+	}
+
+	p := new(People)
+	p.Name = "liyuliang"
+	p.Age = 25
+	p.Gender = "male"
+	p.Address = "China"
+	p.EnglishName = "liang"
+
+	s := new(Student)
+	Fill(s,p)
+
+	println("--------")
+	println(s.Name)
+	println(s.Address)
+	println(s.EnglishName)
+	println("--------")
+
+	//if s.Name != "liyuliang" {
+	//	t.Error("method Fill Name faild")
+	//}
+	//if s.Address != "China" {
+	//	t.Error("method Fill Address faild")
+	//}
+	//if s.EnglishName != "liang" {
+	//	t.Error("method Fill EnglishName faild")
+	//}
 }
