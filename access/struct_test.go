@@ -36,6 +36,7 @@ func TestFill(t *testing.T) {
 
 	type Student struct {
 		Name        string
+		Age         string
 		Address     string
 		EnglishName string
 	}

@@ -52,7 +52,9 @@ func Fill(obj interface{}, fill interface{}) {
 		structField := structElem.FieldByName(fieldName)
 		fillStructField := filleStructElem.FieldByName(fieldName)
 		if structField.IsValid() && structField.CanSet() {
-			structField.Set(fillStructField)
+			if structField.Type()  == fillStructField.Type() {
+				structField.Set(fillStructField)
+			}
 		}
 	}
 }
