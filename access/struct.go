@@ -32,13 +32,13 @@ func SetField(obj interface{}, name string, value interface{}) {
 	}
 }
 
-func Set(obj interface{}, m map[string]interface{}) {
+func SetMap(obj interface{}, m map[string]interface{}) {
 	for k, v := range m {
 		SetField(obj, k, v)
 	}
 }
 
-func Fill(obj interface{}, fill interface{}) {
+func Set(obj interface{}, fill interface{}) {
 
 	targetObj := reflect.ValueOf(obj)
 	fillObj := reflect.ValueOf(fill)

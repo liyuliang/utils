@@ -19,7 +19,7 @@ func TestSet(t *testing.T) {
 	data["age"] = 18
 
 	s := new(Student)
-	Set(s, data)
+	SetMap(s, data)
 
 	if s.Name != "liang" {
 		t.Error("method Set Name faild")
@@ -57,7 +57,7 @@ func TestFill(t *testing.T) {
 	p.EnglishName = "liang"
 
 	s := new(Student)
-	Fill(s,p)
+	Set(s,p)
 
 	println("--------")
 	println(s.Name)
