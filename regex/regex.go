@@ -15,8 +15,15 @@ func Get(content string, expr string) string {
 }
 
 func GetAll(content string, expr string) (results []string) {
-	rule, _ := regexp.Compile(expr)
-	results = rule.FindAllString(content,-1)
+	rule := regexp.MustCompile(expr)
+	allMatch := rule.FindAllStringSubmatch(content,-1)
+	for _, value := range allMatch {
+		if len(value) > 1 {
+			results = append(results,value[1])
+		}else{
+			results = append(results,value[0])
+		}
+	}
 	return results
 }
 

@@ -23,7 +23,17 @@ func TestGetAll(t *testing.T) {
 	if nums[1] != "89" {
 		t.Error("regexp get all wrong , expect 89, but get", nums[1])
 	}
+}
 
+func TestGetAll2(t *testing.T) {
+	content := `{null,"Age":24,"Balance":33.23}`
+	keys := GetAll(content, `"([^\"]+)"`)
+	if keys[0] != "Age" {
+		t.Error("regexp get all wrong , expect Age, but get", keys[0])
+	}
+	if keys[1] != "Balance" {
+		t.Error("regexp get all wrong , expect Balance, but get", keys[1])
+	}
 }
 
 func Test_replace(t *testing.T) {
