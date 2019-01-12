@@ -17,7 +17,7 @@ func (p param) IsExist() bool {
 func GetParam(paramIndex int) (arg param) {
 
 	argsNum := len(os.Args)
-	if argsNum > 1 {
+	if argsNum > paramIndex {
 		arg = param(os.Args[paramIndex])
 	}
 	return arg
