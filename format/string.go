@@ -2,8 +2,6 @@ package format
 
 import (
 	"strconv"
-	"crypto/md5"
-	"encoding/hex"
 	"math/big"
 	"net"
 	"errors"
@@ -36,11 +34,6 @@ func StrToInt64(content string) int64 {
 	}
 }
 
-func MD5Hash(text string) string {
-	hash := md5.Sum([]byte(text))
-	return hex.EncodeToString(hash[:])
-}
-
 func IpToInt64(ipAddr string) (int64, error) {
 	ret := big.NewInt(0)
 	i := net.ParseIP(ipAddr).To4()
@@ -51,7 +44,7 @@ func IpToInt64(ipAddr string) (int64, error) {
 	return 0, errors.New("Ip address not available. ")
 }
 
-func Int64ToIp(ipInt int64) string{
+func Int64ToIp(ipInt int64) string {
 	return fmt.Sprintf("%d.%d.%d.%d",
 		byte(ipInt>>24), byte(ipInt>>16), byte(ipInt>>8), byte(ipInt))
 }
