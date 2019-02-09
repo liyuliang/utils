@@ -35,6 +35,7 @@ func HttpGets(urls []string) (resp []html) {
 			chs <- html{
 				Index:   num,
 				Content: resp.Data,
+				Err:     resp.Err,
 			}
 		}(url, i)
 	}
