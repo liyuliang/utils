@@ -11,7 +11,7 @@ import (
 	UrlPkg "net/url"
 )
 
-func getHost(s string) string {
+func GetHost(s string) string {
 	u, err := UrlPkg.Parse(s)
 	if err == nil {
 		return u.Scheme + "://" + u.Host
@@ -19,8 +19,8 @@ func getHost(s string) string {
 	return ""
 }
 
-func urlRemoveHost(url string) string {
-	host := getHost(url)
+func UrlRemoveHost(url string) string {
+	host := GetHost(url)
 	url = strings.Replace(url, host, "", -1)
 	return url
 }
