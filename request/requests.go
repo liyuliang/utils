@@ -31,7 +31,7 @@ func HttpGets(urls []string) (resp []html) {
 	for i, url := range urls {
 
 		go func(uri string, num int) {
-			resp := doReq(uri, "")
+			resp := DoReq(uri, "")
 			chs <- html{
 				Index:   num,
 				Content: resp.Data,

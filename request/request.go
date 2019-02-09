@@ -36,7 +36,7 @@ func GetReferer(uri string) (string, error) {
 	return referer, nil
 }
 
-func doReq(uri string, proxy string) (resp *Response) {
+func DoReq(uri string, proxy string) (resp *Response) {
 	t1 := time.Now()
 
 	resp = new(Response)
@@ -98,6 +98,6 @@ func doReq(uri string, proxy string) (resp *Response) {
 }
 
 func HttpGet(uri string) (httpResponse *Response) {
-	resp := doReq(uri, "")
+	resp := DoReq(uri, "")
 	return resp
 }
