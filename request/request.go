@@ -52,10 +52,9 @@ func DoReq(uri string, proxy string) (resp *Response) {
 	r := req.New()
 
 	r.EnableInsecureTLS(true)
-	r.SetTimeout(format.IntToTimeSecond(30))
+	r.SetTimeout(format.IntToTimeSecond(60))
 	if proxy != "" {
 		r.SetProxyUrl("http://" + proxy)
-		r.SetTimeout(format.IntToTimeSecond(25))
 	}
 
 	result, err := r.Get(uri, req.Header{
