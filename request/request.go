@@ -5,10 +5,10 @@ import (
 	"github.com/imroc/req"
 	"utils/format"
 	"errors"
-	"log"
 	"strings"
 	"utils/regex"
 	UrlPkg "net/url"
+	"net/http"
 )
 
 func GetHost(s string) string {
@@ -41,26 +41,27 @@ func DoReq(uri string, proxy string) (resp *Response) {
 
 	resp = new(Response)
 
-	referer, err := GetReferer(uri)
-	if err != nil {
-		resp.Err = err
-		return resp
+	needReferer := IsUrlNeedReferer(uri)
+
+	header := GetHeader()
+
+	if needReferer {
+		referer, err := GetReferer(uri)
+		if err != nil {
+			resp.Err = err
+			return resp
+		}
+		header.Set("Referer", referer)
+
 	}
 
-	agent := AUserAgents()
+	r := GetReq()
 
-	r := req.New()
-
-	r.EnableInsecureTLS(true)
-	r.SetTimeout(format.IntToTimeSecond(60))
 	if proxy != "" {
 		r.SetProxyUrl("http://" + proxy)
 	}
 
-	result, err := r.Get(uri, req.Header{
-		"User-Agent": agent,
-		"Referer":    referer,
-	})
+	result, err := r.Get(uri, header)
 
 	if err != nil {
 		resp.Err = err
@@ -69,10 +70,7 @@ func DoReq(uri string, proxy string) (resp *Response) {
 
 	if result.Response().StatusCode != 200 {
 		// Try again
-		result, err = r.Get(uri, req.Header{
-			"User-Agent": agent,
-			"Referer":    referer,
-		})
+		result, err = r.Get(uri, header)
 
 		if err != nil {
 			resp.Err = err
@@ -90,10 +88,30 @@ func DoReq(uri string, proxy string) (resp *Response) {
 	resp.StatusCode = result.Response().StatusCode
 	resp.Data = result.String()
 	resp.Speed = t2.Sub(t1).Seconds()
-	if proxy != "" {
-		log.Printf("Using proxy ip: %s, use: %f", proxy, resp.Speed)
-	}
+
 	return resp
+}
+
+func IsUrlNeedReferer(uri string) bool {
+	r := req.New()
+	resp, err := r.Head(uri)
+	if err != nil || (resp != nil && resp.Response().StatusCode == 403) {
+		return true
+	}
+	return false
+}
+
+func GetReq() *req.Req {
+	r := req.New()
+	r.EnableInsecureTLS(true)
+	r.SetTimeout(format.IntToTimeSecond(60))
+	return r
+}
+
+func GetHeader() http.Header {
+	header := make(http.Header)
+	header.Set("User-Agent", AUserAgents())
+	return header
 }
 
 func HttpGet(uri string) (httpResponse *Response) {
