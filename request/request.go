@@ -3,16 +3,16 @@ package request
 import (
 	"time"
 	"github.com/imroc/req"
-	"utils/format"
 	"errors"
 	"strings"
-	"utils/regex"
-	UrlPkg "net/url"
+	"net/url"
 	"net/http"
+	"github.com/liyuliang/utils/regex"
+	"github.com/liyuliang/utils/format"
 )
 
 func GetHost(s string) string {
-	u, err := UrlPkg.Parse(s)
+	u, err := url.Parse(s)
 	if err == nil {
 		return u.Scheme + "://" + u.Host
 	}
@@ -26,13 +26,13 @@ func UrlRemoveHost(url string) string {
 }
 
 func GetReferer(uri string) (string, error) {
-	Url, err := UrlPkg.Parse(uri)
+	U, err := url.Parse(uri)
 	if err != nil {
 		return "", err
 	}
 
-	referer := regex.Get(Url.Host, `([^\.]+\.[^\.]+$)`)
-	referer = Url.Scheme + "://www." + referer
+	referer := regex.Get(U.Host, `([^\.]+\.[^\.]+$)`)
+	referer = U.Scheme + "://www." + referer
 	return referer, nil
 }
 
