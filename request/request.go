@@ -62,7 +62,6 @@ func DoReq(uri string, proxy string) (resp *Response) {
 	}
 
 	result, err := r.Get(uri, header)
-
 	if err != nil {
 		resp.Err = err
 		return resp
@@ -88,6 +87,8 @@ func DoReq(uri string, proxy string) (resp *Response) {
 	resp.StatusCode = result.Response().StatusCode
 	resp.Data = result.String()
 	resp.Speed = t2.Sub(t1).Seconds()
+
+	result.Response().Body.Close()
 
 	return resp
 }
