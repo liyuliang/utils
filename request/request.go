@@ -43,7 +43,7 @@ func DoReq(uri string, proxy string) (resp *Response) {
 
 	needReferer := IsUrlNeedReferer(uri)
 
-	header := GetHeader()
+	header := GetHeader(uri)
 
 	if needReferer {
 		referer, err := GetReferer(uri)
@@ -109,9 +109,13 @@ func GetReq() *req.Req {
 	return r
 }
 
-func GetHeader() http.Header {
+func GetHeader(uri string) http.Header {
+	isPc := true
+	if strings.Contains(uri, "//m.") || strings.Contains(uri, "/mobile/") {
+		isPc = false
+	}
 	header := make(http.Header)
-	header.Set("User-Agent", AUserAgents())
+	header.Set("User-Agent", AUserAgents(isPc))
 	return header
 }
 
