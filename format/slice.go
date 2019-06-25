@@ -14,3 +14,12 @@ func SliceDelDuplicate(slice []string) []string {
 	}
 	return result
 }
+
+func InArray(items []string, item string) bool {
+	for _, a := range items {
+		if a == item {
+			return true
+		}
+	}
+	return false
+}
