@@ -1,14 +1,18 @@
 package request
 
 import (
-	"time"
-	"github.com/imroc/req"
+	"bytes"
 	"errors"
-	"strings"
-	"net/url"
-	"net/http"
-	"github.com/liyuliang/utils/regex"
+	"github.com/imroc/req"
 	"github.com/liyuliang/utils/format"
+	"github.com/liyuliang/utils/regex"
+	"io"
+	"io/ioutil"
+	"log"
+	"net/http"
+	"net/url"
+	"strings"
+	"time"
 )
 
 func GetHost(s string) string {
@@ -122,4 +126,54 @@ func GetHeader(uri string) http.Header {
 func HttpGet(uri string) (httpResponse *Response) {
 	resp := DoReq(uri, "")
 	return resp
+}
+
+func HttpPost(uri string, params url.Values) (content string, err error) {
+	resp, err := http.PostForm(uri, params)
+
+	if err != nil {
+		return "", err
+	}
+
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return "", err
+	}
+
+	return string(body), nil
+}
+
+func HttpAuthGET(account, password, uri string) (content string, err error) {
+	return HttpReq("GET", account, password, uri, nil)
+}
+
+func HttpAuthPost(account, password, uri string, v url.Values) (content string, err error) {
+
+	p := bytes.NewBufferString(v.Encode())
+	return HttpReq("POST", account, password, uri, p)
+}
+
+func HttpReq(method, account, password, uri string, body io.Reader) (content string, err error) {
+
+	req, err := http.NewRequest(method, uri, body)
+	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	req.SetBasicAuth(account, password)
+
+	client := &http.Client{
+		Timeout: time.Duration(60 * time.Second),
+	}
+	resp, err := client.Do(req)
+	if err != nil {
+		log.Println(err.Error())
+		return "", err
+	} else {
+		defer resp.Body.Close()
+		if resp.StatusCode != 200 {
+			return "", errors.New("Http response code is not 200. ")
+		} else {
+			bodyText, err := ioutil.ReadAll(resp.Body)
+			return string(bodyText), err
+		}
+	}
 }
