@@ -17,10 +17,10 @@ func TestSliceDelDuplicate(t *testing.T) {
 }
 
 func TestSliceChunk(t *testing.T) {
-	input := []string{}
+	var input []interface{}
 
 	for i := 1; i < 10; i++ {
-		input = append(input, IntToStr(i))
+		input = append(input, i)
 	}
 
 	result := SliceChunk(input, 4)
@@ -29,14 +29,14 @@ func TestSliceChunk(t *testing.T) {
 		t.Error("Slice Chunk cut to group failed, expect group size is 3, but get ", len(result))
 	}
 
-	if result[0][0] != "1"  {
+	if result[0][0].(int) != 1 {
 		t.Error("Slice Chunk cut to group failed, expect group size is 3, but get ", len(result))
 	}
 
-	if result[1][0] != "5"  {
+	if result[1][0].(int) != 5 {
 		t.Error("Slice Chunk cut to group failed, expect group size is 3, but get ", len(result))
 	}
-	if result[2][0] != "9"  {
+	if result[2][0].(int) != 9 {
 		t.Error("Slice Chunk cut to group failed, expect group size is 3, but get ", len(result))
 	}
 
