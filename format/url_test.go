@@ -2,15 +2,15 @@ package format
 
 import "testing"
 
-const url = "https://www.baidu.com/"
+const u = "https://www.baidu.com/"
 const urlEncode = "https%3A%2F%2Fwww.baidu.com%2F"
 
 func TestUrlEncode(t *testing.T) {
 
-	result := UrlEncode(url)
+	result := UrlEncode(u)
 
 	if result != urlEncode {
-		t.Error("url encode wrong")
+		t.Error("u encode wrong")
 	}
 }
 
@@ -20,9 +20,9 @@ func TestUrlDecode(t *testing.T) {
 	if err != nil {
 		t.Error(err.Error())
 	} else {
-		if result != url {
+		if result != u {
 			t.Error(result)
-			t.Error("url decode wrong")
+			t.Error("u decode wrong")
 		}
 	}
 }
